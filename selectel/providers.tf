@@ -12,23 +12,18 @@ terraform {
   }
 }
 
-# Провайдер Selectel используется для создания публичного IP-адреса для ws11.
 provider "selectel" {
-  # Данные для аутентификации передаются через переменные окружения или variables.
-  # В данном случае используются переменные.
-  domain_name = var.account_id      # Номер вашего аккаунта Selectel
-  username    = var.service_user    # Имя сервисного пользователя
+  domain_name = var.account_id
+  username    = var.service_user
   password    = var.service_password
-  auth_url    = "https://cloud.api.selcloud.ru/identity/v3/"
-  auth_region = var.region
+  auth_url    = "https://cloud.api.selcloud.ru/identity/v3"
+  region      = var.region
 }
 
-# OpenStack провайдер используется для создания всех остальных ресурсов:
-# сетей, серверов, маршрутизации.
 provider "openstack" {
   auth_url    = "https://cloud.api.selcloud.ru/identity/v3"
   domain_name = var.account_id
-  tenant_id   = var.project_id       # ID вашего OpenStack-проекта
+  tenant_id   = var.project_id
   user_name   = var.service_user
   password    = var.service_password
   region      = var.region
