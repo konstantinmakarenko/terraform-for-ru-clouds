@@ -16,14 +16,6 @@ resource "yandex_vpc_subnet" "subnet_a" {
   v4_cidr_blocks = [var.network_a_cidr]
 }
 
-# Подсеть B (транзитная) - будет обновлена с таблицей маршрутизации после её создания
-resource "yandex_vpc_subnet" "subnet_b" {
-  name           = "subnet-b"
-  zone           = var.default_zone
-  network_id     = yandex_vpc_network.main.id
-  v4_cidr_blocks = [var.network_b_cidr]
-}
-
 # Подсеть C
 resource "yandex_vpc_subnet" "subnet_c" {
   name           = "subnet-c"
@@ -49,16 +41,15 @@ resource "yandex_vpc_route_table" "route_table_b" {
   }
 }
 
-# Обновляем подсеть B, добавляя таблицу маршрутизации
-# Используем depends_on, чтобы гарантировать порядок создания
-resource "yandex_vpc_subnet" "subnet_b_routed" {
-  name           = "subnet-b-routed"
+# Подсеть B с таблицей маршрутизации (только один раз!)
+resource "yandex_vpc_subnet" "subnet_b" {
+  name           = "subnet-b"
   zone           = var.default_zone
   network_id     = yandex_vpc_network.main.id
   v4_cidr_blocks = [var.network_b_cidr]
   route_table_id = yandex_vpc_route_table.route_table_b.id
 
   depends_on = [
-    yandex_vpc_subnet.subnet_b
+    yandex_vpc_route_table.route_table_b
   ]
 }

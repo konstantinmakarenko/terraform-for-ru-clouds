@@ -5,7 +5,7 @@ resource "yandex_compute_instance" "r1" {
   zone        = var.default_zone
 
   resources {
-    cores         = 1
+    cores         = 2
     memory        = 1
     core_fraction = 20
   }
@@ -24,7 +24,7 @@ resource "yandex_compute_instance" "r1" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet_b_routed.id  # Изменено
+    subnet_id = yandex_vpc_subnet.subnet_b.id  # Исправлено: subnet_b_routed → subnet_b
     nat       = false
   }
 
@@ -45,7 +45,7 @@ resource "yandex_compute_instance" "r2" {
   zone        = var.default_zone
 
   resources {
-    cores         = 1
+    cores         = 2
     memory        = 1
     core_fraction = 20
   }
@@ -59,7 +59,7 @@ resource "yandex_compute_instance" "r2" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet_b_routed.id  # Изменено
+    subnet_id = yandex_vpc_subnet.subnet_b.id  # Исправлено: subnet_b_routed → subnet_b
     nat       = false
   }
 
@@ -78,14 +78,14 @@ resource "yandex_compute_instance" "r2" {
   }
 }
 
-# === РАБОЧАЯ СТАНЦИЯ ws11 ===
+# === ws11 ===
 resource "yandex_compute_instance" "ws11" {
   name        = "ws11"
   platform_id = "standard-v2"
   zone        = var.default_zone
 
   resources {
-    cores         = 1
+    cores         = 2
     memory        = 1
     core_fraction = 20
   }
@@ -113,14 +113,14 @@ resource "yandex_compute_instance" "ws11" {
   }
 }
 
-# === РАБОЧАЯ СТАНЦИЯ ws21 ===
+# === ws21 ===
 resource "yandex_compute_instance" "ws21" {
   name        = "ws21"
   platform_id = "standard-v2"
   zone        = var.default_zone
 
   resources {
-    cores         = 1
+    cores         = 2
     memory        = 1
     core_fraction = 20
   }
@@ -147,14 +147,14 @@ resource "yandex_compute_instance" "ws21" {
   }
 }
 
-# === РАБОЧАЯ СТАНЦИЯ ws22 ===
+# === ws22 ===
 resource "yandex_compute_instance" "ws22" {
   name        = "ws22"
   platform_id = "standard-v2"
   zone        = var.default_zone
 
   resources {
-    cores         = 1
+    cores         = 2
     memory        = 1
     core_fraction = 20
   }
