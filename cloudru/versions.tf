@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.0"
   required_providers {
     cloudru = {
-      source  = "cloud.ru/cloudru/cloud"
+      source  = "C:/Users/kmoms/portfolio/normal/terraform-for-ru-clouds/cloudru/terraform/providers"
       version = "2.0.2"
     }
   }
