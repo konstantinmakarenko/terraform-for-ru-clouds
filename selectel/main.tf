@@ -18,6 +18,7 @@ provider "selectel" {
   password    = var.service_password
   auth_url    = "https://cloud.api.selcloud.ru/identity/v3"
   region      = var.region
+  auth_region = var.region  # <--- ДОБАВЛЕНО: убирает запрос
 }
 
 provider "openstack" {
@@ -213,14 +214,17 @@ resource "openstack_networking_floatingip_associate_v2" "ws11_fip_assoc" {
 
 # ===== ВЫВОД =====
 output "ws11_public_ip" {
-  value = selectel_vpc_floatingip_v2.ws11_floatingip.floating_ip_address
+  description = "Публичный IP для доступа к ws11"
+  value       = selectel_vpc_floatingip_v2.ws11_floatingip.floating_ip_address
 }
 
 output "ws11_private_ip" {
-  value = openstack_compute_instance_v2.ws11.network[0].fixed_ip_v4
+  description = "Приватный IP ws11"
+  value       = openstack_compute_instance_v2.ws11.network[0].fixed_ip_v4
 }
 
 output "r1_ips" {
+  description = "IP-адреса маршрутизатора r1"
   value = {
     eth0 = openstack_compute_instance_v2.r1.network[0].fixed_ip_v4
     eth1 = openstack_compute_instance_v2.r1.network[1].fixed_ip_v4
@@ -228,6 +232,7 @@ output "r1_ips" {
 }
 
 output "r2_ips" {
+  description = "IP-адреса маршрутизатора r2"
   value = {
     eth0 = openstack_compute_instance_v2.r2.network[0].fixed_ip_v4
     eth1 = openstack_compute_instance_v2.r2.network[1].fixed_ip_v4
@@ -235,9 +240,11 @@ output "r2_ips" {
 }
 
 output "ws21_ip" {
-  value = openstack_compute_instance_v2.ws21.network[0].fixed_ip_v4
+  description = "IP-адрес ws21"
+  value       = openstack_compute_instance_v2.ws21.network[0].fixed_ip_v4
 }
 
 output "ws22_ip" {
-  value = openstack_compute_instance_v2.ws22.network[0].fixed_ip_v4
+  description = "IP-адрес ws22"
+  value       = openstack_compute_instance_v2.ws22.network[0].fixed_ip_v4
 }
