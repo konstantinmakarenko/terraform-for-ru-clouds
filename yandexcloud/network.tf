@@ -1,14 +1,17 @@
-# ===== ДАННЫЕ ОБ ОБРАЗЕ =====
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
+# Берём актуальный образ Ubuntu для виртуальных машин.
 data "yandex_compute_image" "ubuntu" {
   family = "ubuntu-2404-lts"
 }
 
-# Облачная сеть VPC
+# Создаём облачную сеть.
 resource "yandex_vpc_network" "main" {
   name = "main-network"
 }
 
-# Подсеть A
+# Описываем подсеть и её адресный диапазон.
 resource "yandex_vpc_subnet" "subnet_a" {
   name           = "subnet-a"
   zone           = var.default_zone
@@ -16,7 +19,7 @@ resource "yandex_vpc_subnet" "subnet_a" {
   v4_cidr_blocks = [var.network_a_cidr]
 }
 
-# Подсеть C
+# Описываем подсеть и её адресный диапазон.
 resource "yandex_vpc_subnet" "subnet_c" {
   name           = "subnet-c"
   zone           = var.default_zone
@@ -24,13 +27,13 @@ resource "yandex_vpc_subnet" "subnet_c" {
   v4_cidr_blocks = [var.network_c_cidr]
 }
 
-# NAT-шлюз для доступа в интернет
+# Настраиваем маршрутизацию между сетями.
 resource "yandex_vpc_gateway" "nat_gateway" {
   name = "nat-gateway"
   shared_egress_gateway {}
 }
 
-# Таблица маршрутизации для подсети B
+# Настраиваем маршрутизацию между сетями.
 resource "yandex_vpc_route_table" "route_table_b" {
   name       = "route-table-b"
   network_id = yandex_vpc_network.main.id
@@ -41,7 +44,7 @@ resource "yandex_vpc_route_table" "route_table_b" {
   }
 }
 
-# Подсеть B с таблицей маршрутизации (только один раз!)
+# Описываем подсеть и её адресный диапазон.
 resource "yandex_vpc_subnet" "subnet_b" {
   name           = "subnet-b"
   zone           = var.default_zone

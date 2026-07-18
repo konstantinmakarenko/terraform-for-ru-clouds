@@ -1,4 +1,7 @@
-# === МАРШРУТИЗАТОР r1 ===
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
+# Маршрутизатор связывает подсети и включает пересылку пакетов.
 resource "yandex_compute_instance" "r1" {
   name        = "r1"
   platform_id = "standard-v2"
@@ -24,12 +27,13 @@ resource "yandex_compute_instance" "r1" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet_b.id  # Исправлено: subnet_b_routed → subnet_b
+    subnet_id = yandex_vpc_subnet.subnet_b.id
     nat       = false
   }
 
   metadata = {
     ssh-keys = "ubuntu:${var.public_ssh_key}"
+    # Cloud-init настраивает SSH и сетевые параметры внутри ВМ.
     user-data = <<-EOF
       #!/bin/bash
       echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
@@ -38,7 +42,7 @@ resource "yandex_compute_instance" "r1" {
   }
 }
 
-# === МАРШРУТИЗАТОР r2 ===
+# Маршрутизатор связывает подсети и включает пересылку пакетов.
 resource "yandex_compute_instance" "r2" {
   name        = "r2"
   platform_id = "standard-v2"
@@ -59,7 +63,7 @@ resource "yandex_compute_instance" "r2" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet_b.id  # Исправлено: subnet_b_routed → subnet_b
+    subnet_id = yandex_vpc_subnet.subnet_b.id
     nat       = false
   }
 
@@ -70,6 +74,7 @@ resource "yandex_compute_instance" "r2" {
 
   metadata = {
     ssh-keys = "ubuntu:${var.public_ssh_key}"
+    # Cloud-init настраивает SSH и сетевые параметры внутри ВМ.
     user-data = <<-EOF
       #!/bin/bash
       echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
@@ -78,7 +83,7 @@ resource "yandex_compute_instance" "r2" {
   }
 }
 
-# === ws11 ===
+# Рабочая станция подключается к своей подсети.
 resource "yandex_compute_instance" "ws11" {
   name        = "ws11"
   platform_id = "standard-v2"
@@ -105,6 +110,7 @@ resource "yandex_compute_instance" "ws11" {
 
   metadata = {
     ssh-keys = "ubuntu:${var.public_ssh_key}"
+    # Cloud-init настраивает SSH и сетевые параметры внутри ВМ.
     user-data = <<-EOF
       #!/bin/bash
       ip route add default via 10.10.0.1 dev eth0 || true
@@ -113,7 +119,7 @@ resource "yandex_compute_instance" "ws11" {
   }
 }
 
-# === ws21 ===
+# Рабочая станция подключается к своей подсети.
 resource "yandex_compute_instance" "ws21" {
   name        = "ws21"
   platform_id = "standard-v2"
@@ -140,6 +146,7 @@ resource "yandex_compute_instance" "ws21" {
 
   metadata = {
     ssh-keys = "ubuntu:${var.public_ssh_key}"
+    # Cloud-init настраивает SSH и сетевые параметры внутри ВМ.
     user-data = <<-EOF
       #!/bin/bash
       ip route add default via 10.20.0.1 dev eth0 || true
@@ -147,7 +154,7 @@ resource "yandex_compute_instance" "ws21" {
   }
 }
 
-# === ws22 ===
+# Рабочая станция подключается к своей подсети.
 resource "yandex_compute_instance" "ws22" {
   name        = "ws22"
   platform_id = "standard-v2"
@@ -174,6 +181,7 @@ resource "yandex_compute_instance" "ws22" {
 
   metadata = {
     ssh-keys = "ubuntu:${var.public_ssh_key}"
+    # Cloud-init настраивает SSH и сетевые параметры внутри ВМ.
     user-data = <<-EOF
       #!/bin/bash
       ip route add default via 10.20.0.1 dev eth0 || true

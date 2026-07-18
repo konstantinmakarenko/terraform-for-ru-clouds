@@ -1,3 +1,6 @@
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
 output "ws11_public_ip" {
   description = "Публичный IP для доступа к ws11"
   value       = selectel_vpc_floatingip_v2.ws11_floatingip.floating_ip_address

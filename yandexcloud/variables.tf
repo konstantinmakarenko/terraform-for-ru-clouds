@@ -1,4 +1,6 @@
-# Аутентификация
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
 variable "cloud_id" {
   description = "ID облака Yandex Cloud"
   type        = string
@@ -17,21 +19,18 @@ variable "token" {
   sensitive   = true
 }
 
-# SSH-ключ
 variable "public_ssh_key" {
   description = "Публичный SSH-ключ для доступа к ВМ"
   type        = string
   sensitive   = true
 }
 
-# Зона доступности
 variable "default_zone" {
   description = "Зона доступности по умолчанию"
   type        = string
   default     = "ru-central1-a"
 }
 
-# CIDR сетей
 variable "network_a_cidr" {
   description = "CIDR сети A (10.10.0.0/18)"
   type        = string

@@ -1,3 +1,6 @@
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
 output "ws11_public_ip" {
   description = "Публичный IP для доступа к ws11 из интернета"
   value       = yandex_compute_instance.ws11.network_interface[0].nat_ip_address

@@ -1,3 +1,6 @@
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
 output "ws11_public_ip" {
   description = "Публичный IP для доступа к ws11"
   value       = cloudru_compute_floating_ip.ws11_floating_ip.address

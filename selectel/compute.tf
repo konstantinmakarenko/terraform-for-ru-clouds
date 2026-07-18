@@ -1,10 +1,13 @@
-# ===== КЛЮЧ =====
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
+# Регистрируем публичный SSH-ключ для входа на ВМ.
 resource "openstack_compute_keypair_v2" "admin_key" {
   name       = "my-unique-key-2026"
   public_key = var.public_ssh_key
 }
 
-# ===== ВИРТУАЛЬНЫЕ МАШИНЫ =====
+# Создаём виртуальную машину с SSH-доступом.
 resource "openstack_compute_instance_v2" "r1" {
   name        = "r1"
   flavor_name = "SL1.1-1024"
@@ -28,6 +31,7 @@ resource "openstack_compute_instance_v2" "r1" {
   }
 }
 
+# Создаём виртуальную машину с SSH-доступом.
 resource "openstack_compute_instance_v2" "r2" {
   name        = "r2"
   flavor_name = "SL1.1-1024"
@@ -51,6 +55,7 @@ resource "openstack_compute_instance_v2" "r2" {
   }
 }
 
+# Создаём виртуальную машину с SSH-доступом.
 resource "openstack_compute_instance_v2" "ws11" {
   name        = "ws11"
   flavor_name = "SL1.1-1024"
@@ -70,6 +75,7 @@ resource "openstack_compute_instance_v2" "ws11" {
   }
 }
 
+# Создаём виртуальную машину с SSH-доступом.
 resource "openstack_compute_instance_v2" "ws21" {
   name        = "ws21"
   flavor_name = "SL1.1-1024"
@@ -89,6 +95,7 @@ resource "openstack_compute_instance_v2" "ws21" {
   }
 }
 
+# Создаём виртуальную машину с SSH-доступом.
 resource "openstack_compute_instance_v2" "ws22" {
   name        = "ws22"
   flavor_name = "SL1.1-1024"
@@ -108,12 +115,13 @@ resource "openstack_compute_instance_v2" "ws22" {
   }
 }
 
-# ===== ПУБЛИЧНЫЙ IP ДЛЯ WS11 =====
+# Выделяем или привязываем публичный IP-адрес.
 resource "selectel_vpc_floatingip_v2" "ws11_floatingip" {
   project_id = var.project_id
   region     = var.region
 }
 
+# Выделяем или привязываем публичный IP-адрес.
 resource "openstack_networking_floatingip_associate_v2" "ws11_fip_assoc" {
   floating_ip = selectel_vpc_floatingip_v2.ws11_floatingip.floating_ip_address
   port_id     = openstack_compute_instance_v2.ws11.network[0].port

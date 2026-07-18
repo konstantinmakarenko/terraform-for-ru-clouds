@@ -1,3 +1,6 @@
+# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
+
+
 variable "auth_key_id" {
   description = "ID ключа сервисного аккаунта"
   type        = string
