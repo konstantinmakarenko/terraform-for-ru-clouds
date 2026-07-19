@@ -1,38 +1,37 @@
-# Terraform-конфигурация этого файла описывает часть облачной инфраструктуры.
-
+# Terraform-конфигурация этого файла описывает выводимые значения Cloud.ru.
 
 output "ws11_public_ip" {
   description = "Публичный IP для доступа к ws11"
-  value       = cloudru_compute_floating_ip.ws11_floating_ip.address
+  value       = cloudru_evolution_compute_interface.ws11.external_ip.ip_address
 }
 
 output "ws11_private_ip" {
   description = "Приватный IP ws11"
-  value       = "10.10.0.2"
+  value       = cloudru_evolution_compute_interface.ws11.ip_address
 }
 
 output "r1_ips" {
   description = "IP-адреса r1"
   value = {
-    eth0 = "10.10.0.1"
-    eth1 = "10.100.0.11"
+    eth0 = cloudru_evolution_compute_interface.r1_a.ip_address
+    eth1 = cloudru_evolution_compute_interface.r1_b.ip_address
   }
 }
 
 output "r2_ips" {
   description = "IP-адреса r2"
   value = {
-    eth0 = "10.100.0.12"
-    eth1 = "10.20.0.1"
+    eth0 = cloudru_evolution_compute_interface.r2_b.ip_address
+    eth1 = cloudru_evolution_compute_interface.r2_c.ip_address
   }
 }
 
 output "ws21_ip" {
   description = "IP-адрес ws21"
-  value       = "10.20.0.10"
+  value       = cloudru_evolution_compute_interface.ws21.ip_address
 }
 
 output "ws22_ip" {
   description = "IP-адрес ws22"
-  value       = "10.20.0.20"
+  value       = cloudru_evolution_compute_interface.ws22.ip_address
 }
